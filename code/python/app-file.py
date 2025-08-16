@@ -15,11 +15,18 @@ os.chdir(Path(__file__).parent)
 
 # Set PORT for Render deployment
 if 'PORT' in os.environ:
-    os.environ['PORT'] = os.environ['PORT']
-    print(f"Using PORT from environment: {os.environ['PORT']}")
+    port = os.environ['PORT']
+    print(f"Using PORT from environment: {port}")
+    # Ensure the PORT is properly set for the server
+    os.environ['PORT'] = str(port)
 else:
-    os.environ['PORT'] = '8000'
-    print(f"No PORT environment variable found, using default: {os.environ['PORT']}")
+    port = '8000'
+    os.environ['PORT'] = port
+    print(f"No PORT environment variable found, using default: {port}")
+
+# Debug: Print all environment variables related to port
+print(f"Final PORT environment variable: {os.environ.get('PORT', 'NOT SET')}")
+print(f"All environment variables: {dict(os.environ)}")
 
 # Load environment variables from .env file
 load_dotenv()

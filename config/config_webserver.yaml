@@ -10,7 +10,7 @@ mode: development # or production or testing.
 
 # Additional optional configurations
 server:
-  host: 0.0.0.0
+  host: 0.0.0.0  # Required for cloud deployments like Render
   enable_cors: true
   max_connections: 100
   timeout: 30  # seconds
