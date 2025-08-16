@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenti AI Agent - High-Risk Payment Solutions</title>
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <style>
+        /* Zenti Brand Colors */
+        :root {
+            --zenti-primary: #f4f6f9;
+            --zenti-white: #ffffff;
+            --zenti-secondary: #172029;
+            --zenti-accent: #ff977d;
+            --zenti-highlight: #8effe9;
+            --zenti-dark-blue: #1B4D7A;
+            --zenti-yellow: #FFD12F;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --border-light: #e2e8f0;
+            --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-strong: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --gradient-primary: linear-gradient(135deg, var(--zenti-primary) 0%, var(--zenti-white) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--zenti-secondary) 0%, #2a3a4a 100%);
+            --gradient-accent: linear-gradient(135deg, var(--zenti-accent), #ffb3a3);
+            --gradient-highlight: linear-gradient(135deg, var(--zenti-highlight), #6bffd9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--gradient-primary);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 151, 125, 0.1), transparent);
+            animation: shimmer 4s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(255, 151, 125, 0.3)); }
+            to { filter: drop-shadow(0 0 20px rgba(255, 151, 125, 0.6)); }
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--zenti-highlight);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Chat Area */
+        .chat-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-strong);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+        }
+
+        .chat-header {
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .chat-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-subtitle {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Messages Container */
+        .messages-container {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            min-height: 400px;
+            background: linear-gradient(to bottom, #fafafa, #ffffff);
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .user-message .message-bubble {
+            background: var(--gradient-accent);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 6px;
+        }
+
+        .assistant-message .message-bubble {
+            background: var(--gradient-secondary);
+            color: white;
+            margin-right: auto;
+            border-bottom-left-radius: 6px;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .typing-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            padding: 1rem 1.5rem;
+            background: var(--gradient-secondary);
+            border-radius: 18px;
+            border-bottom-left-radius: 6px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--zenti-highlight);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 1.5rem;
+            background: white;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--border-light);
+            border-radius: 24px;
+            font-size: 1rem;
+            resize: none;
+            min-height: 50px;
+            max-height: 120px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            border-color: var(--zenti-accent);
+            box-shadow: 0 0 0 3px rgba(255, 151, 125, 0.1);
+        }
+
+        .send-button {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-accent);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Quick Questions Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .quick-questions {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .quick-questions h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--zenti-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .question-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .question-btn {
+            background: var(--gradient-highlight);
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            color: var(--zenti-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .question-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(142, 255, 233, 0.3);
+        }
+
+        /* Company Info */
+        .company-info {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .company-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--zenti-secondary);
+        }
+
+        .info-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--zenti-primary);
+            border-radius: 8px;
+            border-left: 4px solid var(--zenti-accent);
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--zenti-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            color: var(--text-light);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .stats {
+                gap: 1rem;
+            }
+
+            .stat {
+                padding: 0.5rem;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+
+            .quick-questions,
+            .company-info {
+                padding: 1rem;
+            }
+
+            .question-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+
+            .chat-section {
+                min-height: 500px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        .messages-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .messages-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb {
+            background: rgba(142, 255, 233, 0.3);
+            border-radius: 3px;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(142, 255, 233, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">🤖 Zenti AI Agent</h1>
+            <p class="tagline">Your High-Risk Payment Solutions Expert</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">14+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">$2B+</div>
+                    <div class="stat-label">Processing Volume</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">5000+</div>
+                    <div class="stat-label">Approved Merchants</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Approval Rate</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Chat Section -->
+        <div class="chat-section">
+            <div class="chat-header">
+                <h2 class="chat-title">💬 Ask Me Anything</h2>
+                <p class="chat-subtitle">Get instant answers about high-risk payment processing</p>
+            </div>
+            
+            <div class="messages-container" id="messages-container">
+                <div class="message assistant-message">
+                    <div class="message-bubble">
+                        👋 Hello! I'm your Zenti AI Assistant, specialized in high-risk payment processing solutions. I can help you with merchant accounts, approval processes, fees, chargebacks, and more. What would you like to know?
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <div class="input-container">
+                    <textarea 
+                        class="chat-input" 
+                        id="chat-input"
+                        placeholder="Ask me about high-risk payment processing..."
+                        rows="1"
+                    ></textarea>
+                    <button class="send-button" id="send-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Quick Questions -->
+            <div class="quick-questions">
+                <h3>💡 Quick Questions</h3>
+                <div class="question-grid">
+                    <button class="question-btn" onclick="askQuestion('Do you accept my vertical?')">
+                        Do you accept my vertical?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('Why is my business considered high-risk?')">
+                        Why high-risk business?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('What are my approval options?')">
+                        Approval options?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('How do processing fees work?')">
+                        Processing fees?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('What is a rolling reserve?')">
+                        Rolling reserve?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('How can I reduce chargebacks?')">
+                        Reduce chargebacks?
+                    </button>
+                </div>
+            </div>
+
+            <!-- Company Info -->
+            <!-- <div class="company-info">
+                <h3>🏢 About Zenti</h3>
+                <div class="info-item">
+                    <div class="info-label">Specialty</div>
+                    <div class="info-value">High-Risk Payment Processing</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Services</div>
+                    <div class="info-value">Merchant Accounts, APIs, Revenue Partners</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Coverage</div>
+                    <div class="info-value">United States</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Support</div>
+                    <div class="info-value">24/7 Expert Assistance</div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the ChatInterface from NLWeb
+        import { ChatInterface } from './chat-interface.js';
+
+        class ZentiChatInterface {
+            constructor() {
+                this.chatInterface = new ChatInterface('Zenti', 'nlwebsearch', 'list', false);
+                this.messagesContainer = document.getElementById('messages-container');
+                this.chatInput = document.getElementById('chat-input');
+                this.sendButton = document.getElementById('send-button');
+                this.isProcessing = false;
+
+                this.setupEventListeners();
+                this.setupChatInterface();
+            }
+
+            setupChatInterface() {
+                // Append the chat interface to our messages container
+                this.chatInterface.appendInterfaceElements(this.messagesContainer);
+                
+                // Hide the default input since we have our own
+                if (this.chatInterface.inputArea) {
+                    this.chatInterface.inputArea.style.display = 'none';
+                }
+            }
+
+            setupEventListeners() {
+                // Send button click
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+
+                // Enter key (but allow Shift+Enter for new lines)
+                this.chatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                // Auto-resize textarea
+                this.chatInput.addEventListener('input', () => {
+                    this.chatInput.style.height = 'auto';
+                    const newHeight = Math.min(this.chatInput.scrollHeight, 120);
+                    this.chatInput.style.height = newHeight + 'px';
+                });
+            }
+
+            sendMessage(message = null) {
+                const messageText = message || this.chatInput.value.trim();
+                if (!messageText || this.isProcessing) return;
+
+                this.isProcessing = true;
+                this.sendButton.disabled = true;
+
+                // Clear input
+                this.chatInput.value = '';
+                this.chatInput.style.height = 'auto';
+
+                // Add user message
+                this.addMessage(messageText, 'user');
+
+                // Show typing indicator
+                this.showTypingIndicator();
+
+                // Send to NLWeb
+                this.chatInterface.sendMessage(messageText);
+                
+                // The response will be handled by the ChatInterface
+                // We'll override the addMessage method to integrate with our UI
+                this.overrideChatInterfaceMethods();
+            }
+
+            addMessage(content, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+                bubble.textContent = content;
+                
+                messageDiv.appendChild(bubble);
+                this.messagesContainer.appendChild(messageDiv);
+                
+                this.scrollToBottom();
+
+                if (sender === 'assistant') {
+                    this.hideTypingIndicator();
+                    this.isProcessing = false;
+                    this.sendButton.disabled = false;
+                }
+            }
+
+            showTypingIndicator() {
+                this.hideTypingIndicator(); // Remove any existing indicator
+                
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typing-indicator';
+                typingDiv.innerHTML = `
+                    <div class="typing-avatar">🤖</div>
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                `;
+                
+                this.messagesContainer.appendChild(typingDiv);
+                this.scrollToBottom();
+            }
+
+            hideTypingIndicator() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) {
+                    indicator.remove();
+                }
+            }
+
+            scrollToBottom() {
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            }
+
+            overrideChatInterfaceMethods() {
+                // Override the addMessage method to use our styling
+                const originalAddMessage = this.chatInterface.addMessage.bind(this.chatInterface);
+                this.chatInterface.addMessage = (content, sender) => {
+                    if (sender === 'assistant') {
+                        this.addMessage(content, 'assistant');
+                    } else {
+                        // Don't add user messages as they're already added
+                    }
+                };
+            }
+        }
+
+        // Initialize the chat interface when the page loads
+        let zentiChat;
+        document.addEventListener('DOMContentLoaded', () => {
+            zentiChat = new ZentiChatInterface();
+        });
+
+        // Make askQuestion available globally for the quick question buttons
+        window.askQuestion = function(question) {
+            if (zentiChat) {
+                zentiChat.sendMessage(question);
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenti AI Agent - Customer Support</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f4f6f9 0%, #ffffff 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .chat-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #172029 0%, #2a3a4a 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(23, 32, 41, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 151, 125, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff977d, #8effe9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chat-area {
+            flex: 1;
+            background: white;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 8px 32px rgba(23, 32, 41, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+        }
+
+        .message {
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message.bot {
+            text-align: left;
+        }
+
+        .message-content {
+            display: inline-block;
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #ff977d, #ffb3a3);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.bot .message-content {
+            background: linear-gradient(135deg, #172029, #2a3a4a);
+            color: white;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.bot .message-content::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-right-color: #172029;
+        }
+
+        .message.user .message-content::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-left-color: #ff977d;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #172029, #2a3a4a);
+            color: white;
+            border-radius: 20px;
+            border-bottom-left-radius: 5px;
+            max-width: 70%;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #8effe9;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .input-area {
+            padding: 20px;
+            background: white;
+            border-top: 2px solid #f4f6f9;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .input-container {
+            flex: 1;
+            position: relative;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .chat-input:focus {
+            border-color: #ff977d;
+            box-shadow: 0 0 0 3px rgba(255, 151, 125, 0.1);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #ff977d, #ffb3a3);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 151, 125, 0.3);
+        }
+
+        .send-btn:active {
+            transform: translateY(0);
+        }
+
+        .quick-questions {
+            padding: 20px;
+            background: linear-gradient(135deg, #f4f6f9, #ffffff);
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .quick-questions h3 {
+            color: #172029;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .question-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question-btn {
+            background: linear-gradient(135deg, #8effe9, #6bffd9);
+            color: #172029;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .question-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(142, 255, 233, 0.3);
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin: 10px 0;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #51cf66, #69db7c);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin: 10px 0;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .message-content {
+                max-width: 85%;
+            }
+            
+            .question-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #8effe9;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="header">
+            <h1>🤖 Zenti AI Agent</h1>
+            <p>Customer Support Agent - Your High-Risk Payment Solutions Expert</p>
+        </div>
+        
+        <div class="chat-area">
+            <div class="messages" id="messages">
+                <div class="message bot">
+                    <div class="message-content">
+                        👋 Hello! I'm your Zenti AI Assistant, specialized in high-risk payment processing solutions. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quick-questions">
+                <h3>💡 Quick Questions:</h3>
+                <div class="question-buttons">
+                    <button class="question-btn" onclick="askQuestion('Do you accept my vertical?')">Accept my vertical?</button>
+                    <button class="question-btn" onclick="askQuestion('Why is my business considered high-risk?')">Why high-risk?</button>
+                    <button class="question-btn" onclick="askQuestion('What are my approval options?')">Approval options</button>
+                    <button class="question-btn" onclick="askQuestion('How do processing fees work?')">Processing fees</button>
+                    <button class="question-btn" onclick="askQuestion('What is a rolling reserve?')">Rolling reserve</button>
+                    <button class="question-btn" onclick="askQuestion('How can I reduce chargebacks?')">Reduce chargebacks</button>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <div class="input-container">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Ask me about high-risk payment processing..." onkeypress="handleKeyPress(event)">
+                </div>
+                <button class="send-btn" onclick="sendMessage()">
+                    <span>Send</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messagesContainer = document.getElementById('messages');
+        const chatInput = document.getElementById('chatInput');
+        let isProcessing = false;
+
+        // Zenti FAQ Data
+        const zentiFAQ = {
+            "Do you accept my vertical?": "We have solutions for most high risk verticals, but whether a merchant gets approved by a processor can be a dynamic process and will depend on the results from underwriting. We even have off shore solutions should domestic options not work.",
+            
+            "Why is my business considered high-risk?": "Merchants are often considered high-risk due to factors like chargeback rates, industry type, regulatory scrutiny, ticket size, business history, and processing volume. We help you understand these factors and find the right solution.",
+            
+            "What are my approval options?": "High-risk merchants have several options including specialized processors, offshore solutions, payment aggregators, and alternative payment methods. Our expert team will match you with the best solution for your specific business model.",
+            
+            "How do processing fees work?": "High-risk processing fees are typically higher than mainstream businesses due to increased risk. Pricing is structured with percentage rates, per-transaction fees, monthly fees, and sometimes rolling reserves. We offer best-price guarantees for high-risk businesses.",
+            
+            "What is a rolling reserve?": "A rolling reserve is a percentage of your processing volume held by the processor as security against chargebacks and refunds. It's typically 5-10% held for 6-12 months. We help you understand reserve requirements and negotiate favorable terms.",
+            
+            "How can I reduce chargebacks?": "To reduce chargebacks, implement clear billing descriptors, provide excellent customer service, use fraud detection tools, respond quickly to disputes, and maintain detailed transaction records. We offer chargeback alert services and prevention strategies.",
+            
+            "What documents do I need for approval?": "Required documents typically include business license, financial statements, bank statements, compliance paperwork, processing history, and business plan. We guide you through the entire application process to ensure quick approval.",
+            
+            "Do I need minimum processing volume?": "Our processors work with both startups and established companies. Approval depends on your vertical and underwriting results. We have solutions for businesses of all sizes and processing volumes.",
+            
+            "What happens if my account is terminated?": "If your account is terminated, you may be placed on TMF/MATCH lists. We help you understand removal processes and provide alternative solutions to keep your business running during transitions.",
+            
+            "What are my options if I get declined?": "If declined, we offer alternative solutions including offshore processing, ACH payments, payment gateways, crypto acceptance, and specialized high-risk processors. We work with multiple providers to find the right fit."
+        };
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function askQuestion(question) {
+            if (isProcessing) return;
+            addMessage(question, 'user');
+            processQuestion(question);
+        }
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message && !isProcessing) {
+                addMessage(message, 'user');
+                chatInput.value = '';
+                processQuestion(message);
+            }
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = `<div class="message-content">${text}</div>`;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typing';
+            typingDiv.innerHTML = `
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typingDiv = document.getElementById('typing');
+            if (typingDiv) {
+                typingDiv.remove();
+            }
+        }
+
+        async function processQuestion(question) {
+            isProcessing = true;
+            showTyping();
+
+            try {
+                // First check our FAQ
+                const faqAnswer = findFAQAnswer(question);
+                
+                if (faqAnswer) {
+                    // Simulate typing delay
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    hideTyping();
+                    addMessage(faqAnswer, 'bot');
+                } else {
+                    // Try NLWeb API
+                    const response = await fetch('/api/ask', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            query: question,
+                            site: 'Zenti'
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        hideTyping();
+                        
+                        if (data.error) {
+                            addMessage("I'm here to help with Zenti's high-risk payment processing services! Based on your question, I can provide information about our solutions, approval processes, fees, and more. What specific aspect would you like to know about?", 'bot');
+                        } else {
+                            addMessage(data.response || "I'm here to help with Zenti's high-risk payment processing services!", 'bot');
+                        }
+                    } else {
+                        throw new Error('API request failed');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                hideTyping();
+                addMessage("I'm here to help with Zenti's high-risk payment processing services! I can answer questions about our solutions, approval processes, fees, chargebacks, and more. What would you like to know?", 'bot');
+            }
+
+            isProcessing = false;
+        }
+
+        function findFAQAnswer(question) {
+            const lowerQuestion = question.toLowerCase();
+            
+            for (const [faqQuestion, answer] of Object.entries(zentiFAQ)) {
+                if (lowerQuestion.includes(faqQuestion.toLowerCase()) || 
+                    faqQuestion.toLowerCase().includes(lowerQuestion)) {
+                    return answer;
+                }
+            }
+
+            // Check for keywords
+            if (lowerQuestion.includes('vertical') || lowerQuestion.includes('accept')) {
+                return zentiFAQ["Do you accept my vertical?"];
+            }
+            if (lowerQuestion.includes('high-risk') || lowerQuestion.includes('high risk')) {
+                return zentiFAQ["Why is my business considered high-risk?"];
+            }
+            if (lowerQuestion.includes('approval') || lowerQuestion.includes('approve')) {
+                return zentiFAQ["What are my approval options?"];
+            }
+            if (lowerQuestion.includes('fee') || lowerQuestion.includes('cost') || lowerQuestion.includes('price')) {
+                return zentiFAQ["How do processing fees work?"];
+            }
+            if (lowerQuestion.includes('reserve') || lowerQuestion.includes('hold')) {
+                return zentiFAQ["What is a rolling reserve?"];
+            }
+            if (lowerQuestion.includes('chargeback') || lowerQuestion.includes('dispute')) {
+                return zentiFAQ["How can I reduce chargebacks?"];
+            }
+            if (lowerQuestion.includes('document') || lowerQuestion.includes('paperwork')) {
+                return zentiFAQ["What documents do I need for approval?"];
+            }
+            if (lowerQuestion.includes('volume') || lowerQuestion.includes('minimum')) {
+                return zentiFAQ["Do I need minimum processing volume?"];
+            }
+            if (lowerQuestion.includes('terminate') || lowerQuestion.includes('match')) {
+                return zentiFAQ["What happens if my account is terminated?"];
+            }
+            if (lowerQuestion.includes('decline') || lowerQuestion.includes('reject')) {
+                return zentiFAQ["What are my options if I get declined?"];
+            }
+
+            return null;
+        }
+
+        // Auto-focus on input
+        chatInput.focus();
+    </script>
+</body>
+</html>

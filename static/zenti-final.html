@@ -1,0 +1,1234 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenti AI Agent - High-Risk Payment Solutions</title>
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <style>
+        /* Zenti Brand Colors */
+        :root {
+            --zenti-primary: #f4f6f9;
+            --zenti-white: #ffffff;
+            --zenti-secondary: #172029;
+            --zenti-accent: #ff977d;
+            --zenti-highlight: #8effe9;
+            --zenti-yellow: #FFD12F;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --border-light: #e2e8f0;
+            --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-strong: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #ff977d 0%, #ffb3a3 100%);
+            --gradient-highlight: linear-gradient(135deg, #8effe9 0%, #6bffd9 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--zenti-primary) 0%, var(--zenti-white) 50%, #f0f7ff 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--zenti-highlight);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { width: 3px; height: 3px; left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { width: 5px; height: 5px; left: 50%; animation-delay: 3s; }
+        .particle:nth-child(5) { width: 4px; height: 4px; left: 70%; animation-delay: 4s; }
+        .particle:nth-child(6) { width: 7px; height: 7px; left: 90%; animation-delay: 5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(180deg); }
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--zenti-secondary) 0%, #2a3a4a 50%, #1a252e 100%);
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 150%;
+            background: linear-gradient(45deg, transparent, rgba(255, 151, 125, 0.1), transparent);
+            animation: shimmer 4s infinite;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-highlight);
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+            background: linear-gradient(45deg, var(--zenti-accent), var(--zenti-highlight));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.75rem;
+            font-weight: 300;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 0.5rem 0.75rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--zenti-highlight);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            height: calc(100vh - 120px);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+            gap: 1rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--zenti-secondary) 0%, #2a3a4a 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: sweep 3s ease-in-out infinite;
+        }
+
+        @keyframes sweep {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .chat-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chat-subtitle {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Messages Area */
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1.5rem;
+            background: linear-gradient(to bottom, #fafbfc, #ffffff);
+            scroll-behavior: smooth;
+            position: relative;
+            min-height: 0;
+        }
+
+        .messages-area::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .messages-area::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--zenti-highlight), var(--zenti-accent));
+            border-radius: 4px;
+        }
+
+        .messages-area::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, var(--zenti-accent), var(--zenti-highlight));
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            animation: messageSlide 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .message-bubble {
+            max-width: 85%;
+            padding: 1.2rem 1.8rem;
+            border-radius: 24px;
+            word-wrap: break-word;
+            line-height: 1.5;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .message-bubble:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-message .message-bubble {
+            background: var(--gradient-accent);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 8px;
+            position: relative;
+        }
+
+        .user-message .message-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            border: 10px solid transparent;
+            border-top-color: #ff977d;
+        }
+
+        .assistant-message .message-bubble {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-dark);
+            align-self: flex-start;
+            border-bottom-left-radius: 8px;
+            border: 1px solid rgba(23, 32, 41, 0.1);
+            position: relative;
+        }
+
+        .assistant-message .message-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 20px;
+            border: 10px solid transparent;
+            border-top-color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 6px;
+            padding: 1.2rem 1.8rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            border-bottom-left-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(23, 32, 41, 0.1);
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--zenti-accent);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(226, 232, 240, 0.5);
+            flex-shrink: 0;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+            max-width: 100%;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--border-light);
+            border-radius: 24px;
+            font-size: 1rem;
+            resize: none;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            min-height: 56px;
+            max-height: 120px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-input:focus {
+            border-color: var(--zenti-accent);
+            box-shadow: 0 0 0 4px rgba(255, 151, 125, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .send-button {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-accent);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(255, 151, 125, 0.3);
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .send-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .send-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 151, 125, 0.4);
+        }
+
+        .send-button:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .send-button:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .send-button svg {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex-shrink: 0;
+            animation: slideRight 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes slideRight {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .sidebar-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .sidebar-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--zenti-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Quick Questions */
+        .question-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .question-btn {
+            background: var(--gradient-highlight);
+            border: none;
+            padding: 1rem;
+            border-radius: 16px;
+            color: var(--zenti-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            font-size: 0.85rem;
+            line-height: 1.3;
+            box-shadow: 0 2px 8px rgba(142, 255, 233, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .question-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(142, 255, 233, 0.4);
+            color: var(--text-dark);
+        }
+
+        .question-btn:hover::before {
+            left: 100%;
+        }
+
+        .question-btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        /* Company Info */
+        .info-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--zenti-primary), rgba(244, 246, 249, 0.8));
+            border-radius: 12px;
+            border-left: 4px solid var(--zenti-accent);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .info-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(255, 151, 125, 0.2);
+            border-left-color: var(--zenti-highlight);
+        }
+
+        .info-label {
+            font-weight: 700;
+            color: var(--zenti-secondary);
+            margin-bottom: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .info-value {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+                height: calc(100vh - 100px);
+                padding: 0.75rem;
+                gap: 0.75rem;
+            }
+
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+                overflow-x: auto;
+                overflow-y: hidden;
+                order: -1;
+                height: auto;
+                gap: 0.75rem;
+                max-height: 200px;
+            }
+
+            .sidebar-section {
+                min-width: 280px;
+                flex-shrink: 0;
+                padding: 1.25rem;
+            }
+
+            .chat-container {
+                flex: 1;
+                min-height: 300px;
+                max-height: calc(100vh - 300px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.75rem 0;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .stats {
+                gap: 1rem;
+                margin-top: 0.75rem;
+            }
+
+            .stat {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .stat-number {
+                font-size: 1rem;
+            }
+
+            .stat-label {
+                font-size: 0.7rem;
+            }
+
+            .main-container {
+                padding: 0.5rem;
+                gap: 0.5rem;
+                height: calc(100vh - 90px);
+            }
+
+            .messages-area {
+                padding: 0.75rem;
+                max-height: calc(100vh - 320px);
+            }
+
+            .input-area {
+                padding: 0.75rem;
+                position: sticky;
+                bottom: 0;
+            }
+
+            .sidebar {
+                flex-direction: column;
+                max-height: 150px;
+                overflow-y: auto;
+            }
+
+            .sidebar-section {
+                min-width: auto;
+            }
+
+            .message-bubble {
+                max-width: 95%;
+                padding: 1rem 1.5rem;
+            }
+
+            .chat-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0.25rem;
+                height: calc(100vh - 80px);
+            }
+
+            .header {
+                padding: 0.5rem 0;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .stats {
+                gap: 0.5rem;
+            }
+
+            .message-bubble {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            .sidebar-section {
+                padding: 1rem;
+            }
+
+            .question-btn {
+                padding: 0.75rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Loading animation */
+        .loading {
+            animation: pulse 2s infinite;
+        }
+
+        /* Glassmorphism effects */
+        .glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background particles -->
+    <div class="bg-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">🤖 Zenti AI Agent</h1>
+            <!-- <p class="tagline">Your Expert for High-Risk Payment Solutions</p> -->
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">14+</div>
+                    <div class="stat-label">Years</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">$2B+</div>
+                    <div class="stat-label">Volume</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">5000+</div>
+                    <div class="stat-label">Merchants</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Approval</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Quick Questions -->
+            <div class="sidebar-section">
+                <h3>💡 Quick Questions</h3>
+                <div class="question-grid">
+                    <button class="question-btn" onclick="askQuestion('Do you accept my vertical?')">
+                        Do you accept my vertical?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('Why is my business considered high-risk?')">
+                        Why is my business high-risk?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('What are my approval options?')">
+                        What are my approval options?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('How do processing fees work?')">
+                        How do processing fees work?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('What is a rolling reserve?')">
+                        What is a rolling reserve?
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('How can I reduce chargebacks?')">
+                        How can I reduce chargebacks?
+                    </button>
+                </div>
+            </div>
+
+            <!-- Company Info -->
+            <div class="sidebar-section">
+                <h3>🏢 About Zenti</h3>
+                <div class="info-item">
+                    <div class="info-label">Specialty</div>
+                    <div class="info-value">High-Risk Payment Processing</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Services</div>
+                    <div class="info-value">Merchant Accounts, APIs, Revenue Partners</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Coverage</div>
+                    <div class="info-value">United States & Offshore Solutions</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Support</div>
+                    <div class="info-value">Expert Team & Best-Price Guarantee</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2 class="chat-title">💬 Ask Me About High-Risk Payments</h2>
+                <p class="chat-subtitle">Get expert advice on merchant accounts, fees, and approvals</p>
+            </div>
+            
+            <div class="messages-area" id="messages-area">
+                <div class="message assistant-message">
+                    <div class="message-bubble">
+                        👋 Hello! I'm your Zenti AI Assistant, specialized in high-risk payment processing solutions. I can help you with merchant accounts, approval processes, fees, chargebacks, and more. What would you like to know?
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <div class="input-container">
+                    <textarea 
+                        class="chat-input" 
+                        id="chat-input"
+                        placeholder="Ask me about high-risk payment processing..."
+                        rows="1"
+                    ></textarea>
+                    <button class="send-button" id="send-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FAQ Data - Used directly in UI for instant responses
+        const zentiFAQ = {
+            "Do you accept my vertical?": "We have solutions for most high risk verticals, but whether a merchant gets approved by a processor can be a dynamic process and will depend on the results from underwriting. We even have off shore solutions should domestic options not work.",
+            
+            "Why is my business considered high-risk?": "Merchants are often considered high-risk due to factors like chargeback rates, industry type, regulatory scrutiny, ticket size, business history, and processing volume. We help you understand these factors and find the right solution.",
+            
+            "What are my approval options?": "High-risk merchants have several options including specialized processors, offshore solutions, payment aggregators, and alternative payment methods. Our expert team will match you with the best solution for your specific business model.",
+            
+            "How do processing fees work?": "High-risk processing fees are typically higher than mainstream businesses due to increased risk. Pricing is structured with percentage rates, per-transaction fees, monthly fees, and sometimes rolling reserves. We offer best-price guarantees for high-risk businesses.",
+            
+            "What is a rolling reserve?": "A rolling reserve is a percentage of your processing volume held by the processor as security against chargebacks and refunds. It's typically 5-10% held for 6-12 months. We help you understand reserve requirements and negotiate favorable terms.",
+            
+            "How can I reduce chargebacks?": "To reduce chargebacks, implement clear billing descriptors, provide excellent customer service, use fraud detection tools, respond quickly to disputes, and maintain detailed transaction records. We offer chargeback alert services and prevention strategies.",
+            
+            "What documents do I need for approval?": "Required documents typically include business license, financial statements, bank statements, compliance paperwork, processing history, and business plan. We guide you through the entire application process to ensure quick approval.",
+            
+            "Do I need minimum processing volume?": "Our processors work with both startups and established companies. Approval depends on your vertical and underwriting results. We have solutions for businesses of all sizes and processing volumes.",
+            
+            "What happens if my account is terminated?": "If your account is terminated, you may be placed on TMF/MATCH lists. We help you understand removal processes and provide alternative solutions to keep your business running during transitions.",
+            
+            "What are my options if I get declined?": "If declined, we offer alternative solutions including offshore processing, ACH payments, payment gateways, crypto acceptance, and specialized high-risk processors. We work with multiple providers to find the right fit."
+        };
+
+        // Chat functionality
+        class ZentiChat {
+            constructor() {
+                this.messagesArea = document.getElementById('messages-area');
+                this.chatInput = document.getElementById('chat-input');
+                this.sendButton = document.getElementById('send-button');
+                this.isProcessing = false;
+
+                this.setupEventListeners();
+                this.addWelcomeAnimations();
+            }
+
+            setupEventListeners() {
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                
+                this.chatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                // Auto-resize textarea
+                this.chatInput.addEventListener('input', () => {
+                    this.chatInput.style.height = 'auto';
+                    const newHeight = Math.min(this.chatInput.scrollHeight, 120);
+                    this.chatInput.style.height = newHeight + 'px';
+                });
+
+                // Add focus effects
+                this.chatInput.addEventListener('focus', () => {
+                    this.chatInput.parentElement.style.transform = 'translateY(-2px)';
+                });
+
+                this.chatInput.addEventListener('blur', () => {
+                    this.chatInput.parentElement.style.transform = 'translateY(0)';
+                });
+            }
+
+            addWelcomeAnimations() {
+                // Animate stats on load
+                setTimeout(() => {
+                    document.querySelectorAll('.stat').forEach((stat, index) => {
+                        setTimeout(() => {
+                            stat.style.animation = 'pulse 0.6s ease-out';
+                        }, index * 100);
+                    });
+                }, 1000);
+            }
+
+            async sendMessage(message = null) {
+                const messageText = message || this.chatInput.value.trim();
+                if (!messageText || this.isProcessing) return;
+
+                this.isProcessing = true;
+                this.sendButton.disabled = true;
+                this.sendButton.classList.add('loading');
+
+                // Clear input
+                this.chatInput.value = '';
+                this.chatInput.style.height = 'auto';
+
+                // Add user message with animation
+                this.addMessage(messageText, 'user');
+
+                // Check FAQ first for exact matches
+                const faqAnswer = this.findExactFAQAnswer(messageText);
+                if (faqAnswer) {
+                    this.showTypingIndicator();
+                    setTimeout(() => {
+                        this.hideTypingIndicator();
+                        this.addMessage(faqAnswer, 'assistant');
+                        this.resetSendButton();
+                    }, Math.random() * 1000 + 1000);
+                    return;
+                }
+
+                // Send to API
+                this.showTypingIndicator();
+                try {
+                    console.log('Sending API request with query:', messageText);
+                    
+                    const response = await fetch('/ask', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            query: messageText,
+                            site: 'Zenti',
+                            generate_mode: 'generate',
+                            streaming: 'false'
+                        })
+                    });
+
+                    console.log('API response status:', response.status);
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('API response data:', data);
+                        
+                        this.hideTypingIndicator();
+                        
+                        // Get the answer from API response - check all possible locations
+                        let answer = '';
+                        if (data.nlws && data.nlws.answer && data.nlws.answer.trim()) {
+                            answer = data.nlws.answer.trim();
+                            console.log('Found answer in data.nlws.answer:', answer);
+                        } else if (data.answer && data.answer.trim()) {
+                            answer = data.answer.trim();
+                            console.log('Found answer in data.answer:', answer);
+                        } else if (data.response && data.response.trim()) {
+                            answer = data.response.trim();
+                            console.log('Found answer in data.response:', answer);
+                        } else if (data.text && data.text.trim()) {
+                            answer = data.text.trim();
+                            console.log('Found answer in data.text:', answer);
+                        }
+
+                        console.log('Extracted answer:', answer);
+                        
+                        // If we have a valid answer, use it
+                        if (answer && answer.length > 0) {
+                            // Clean up any system messages but keep the core content
+                            answer = answer.replace(/^(Query interpreted as:|Using search tool|Given the following items).*?\n/gi, '');
+                            answer = answer.replace(/\s+/g, ' ').trim();
+                            
+                            this.addMessage(answer, 'assistant');
+                        } else {
+                            // Fallback if no valid answer
+                            console.log('No valid answer found, using fallback');
+                            this.addMessage("I'd be happy to help you with Zenti's high-risk payment processing services. Could you please be more specific about what you'd like to know? For example, you can ask about merchant accounts, fees, approval processes, or specific industry solutions.", 'assistant');
+                        }
+                    } else {
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+                } catch (error) {
+                    console.error('API Error details:', error);
+                    this.hideTypingIndicator();
+                    
+                    // Check if it's a connection error vs other error
+                    const isConnectionError = error.message.includes('fetch') || error.message.includes('network') || error.message.includes('Failed to fetch');
+                    
+                    const fallbackMessage = isConnectionError 
+                        ? "I'm having trouble connecting to our knowledge base right now. Please try asking about specific topics like merchant accounts, processing fees, approval options, or chargeback prevention."
+                        : "I apologize, but I'm having difficulty processing that request. Please try rephrasing your question or ask about our high-risk payment processing services, merchant accounts, or approval processes.";
+                    
+                    this.addMessage(fallbackMessage, 'assistant');
+                }
+
+                this.resetSendButton();
+            }
+
+            resetSendButton() {
+                this.isProcessing = false;
+                this.sendButton.disabled = false;
+                this.sendButton.classList.remove('loading');
+            }
+
+            findExactFAQAnswer(question) {
+                const lowerQuestion = question.toLowerCase().trim();
+                
+                // Check for exact matches first
+                for (const [faqQuestion, answer] of Object.entries(zentiFAQ)) {
+                    if (lowerQuestion === faqQuestion.toLowerCase()) {
+                        return answer;
+                    }
+                }
+                
+                return null;
+            }
+
+            addMessage(content, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+                bubble.textContent = content;
+                
+                // Add message timestamp (optional)
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                messageDiv.appendChild(bubble);
+                this.messagesArea.appendChild(messageDiv);
+                
+                // Scroll to bottom with smooth animation
+                setTimeout(() => this.scrollToBottom(), 100);
+                
+                // Add entrance animation
+                setTimeout(() => {
+                    messageDiv.style.animation = 'messageSlide 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                }, 50);
+            }
+
+            showTypingIndicator() {
+                this.hideTypingIndicator();
+                
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typing-indicator';
+                typingDiv.innerHTML = `
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                `;
+                
+                this.messagesArea.appendChild(typingDiv);
+                this.scrollToBottom();
+            }
+
+            hideTypingIndicator() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) {
+                    indicator.style.animation = 'fadeOut 0.3s ease-out';
+                    setTimeout(() => indicator.remove(), 300);
+                }
+            }
+
+            scrollToBottom() {
+                this.messagesArea.scrollTop = this.messagesArea.scrollHeight;
+            }
+        }
+
+        // Initialize chat when DOM is loaded
+        let zentiChat;
+        document.addEventListener('DOMContentLoaded', () => {
+            zentiChat = new ZentiChat();
+            
+            // Add page load animations
+            setTimeout(() => {
+                document.body.style.animation = 'fadeIn 1s ease-out';
+            }, 100);
+        });
+
+        // Quick question function
+        window.askQuestion = function(question) {
+            if (zentiChat && !zentiChat.isProcessing) {
+                // Add visual feedback to clicked button
+                event.target.style.animation = 'pulse 0.3s ease-out';
+                setTimeout(() => {
+                    event.target.style.animation = '';
+                }, 300);
+                
+                zentiChat.sendMessage(question);
+            }
+        };
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate elements on scroll/view
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'slideUp 0.6s ease-out';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe sidebar sections
+            document.querySelectorAll('.sidebar-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // Add fade out animation for removed elements
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from { opacity: 1; transform: translateY(0); }
+                to { opacity: 0; transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

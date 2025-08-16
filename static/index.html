@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zenti AI Agent - Customer Support</title>
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+  <link rel="stylesheet" href="/static/common-chat-styles.css">
+  <link rel="stylesheet" href="/static/chat-page-styles.css">
+  <style>
+    /* Zenti Theme Overrides */
+    :root {
+      --primary-color: #f4f6f9;
+      --secondary-color: #172029;
+      --accent-color: #ff977d;
+      --highlight-color: #8effe9;
+      --white-color: #ffffff;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--white-color) 100%);
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, var(--secondary-color) 0%, #2a3a4a 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chat-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 151, 125, 0.1), transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .chat-title {
+      background: linear-gradient(45deg, var(--accent-color), var(--highlight-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      z-index: 1;
+    }
+
+    .chat-input {
+      border: 2px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .chat-input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(255, 151, 125, 0.1);
+    }
+
+    .send-button {
+      background: linear-gradient(135deg, var(--accent-color), #ffb3a3);
+      transition: all 0.3s ease;
+    }
+
+    .send-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 151, 125, 0.3);
+    }
+
+    .message.user .message-content {
+      background: linear-gradient(135deg, var(--accent-color), #ffb3a3);
+      color: white;
+    }
+
+    .message.bot .message-content {
+      background: linear-gradient(135deg, var(--secondary-color), #2a3a4a);
+      color: white;
+    }
+
+    /* Quick Questions Section */
+    .quick-questions {
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary-color), var(--white-color));
+      border-top: 2px solid #e2e8f0;
+      margin-top: auto;
+    }
+
+    .quick-questions h3 {
+      color: var(--secondary-color);
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    .question-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .question-btn {
+      background: linear-gradient(135deg, var(--highlight-color), #6bffd9);
+      color: var(--secondary-color);
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .question-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(142, 255, 233, 0.3);
+    }
+
+    /* Animation for messages */
+    .message {
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      gap: 5px;
+      padding: 15px 20px;
+      background: linear-gradient(135deg, var(--secondary-color), #2a3a4a);
+      color: white;
+      border-radius: 20px;
+      border-bottom-left-radius: 5px;
+      max-width: 70%;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    .typing-dots span {
+      width: 8px;
+      height: 8px;
+      background: var(--highlight-color);
+      border-radius: 50%;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes typing {
+      0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+    
+    <!-- Sidebar Toggle Button (outside sidebar) -->
+    <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle sidebar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      
+      <div class="sidebar-header">
+        <!-- Conversations header with new button -->
+        <div class="conversations-header">
+          <h2 class="conversations-title">Conversations</h2>
+          <button class="new-chat-icon-btn" id="new-chat-btn" title="New chat">
+            <span class="plus-icon">+</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Conversations list -->
+      <div class="conversations-list" id="conversations-list">
+        <!-- Conversation items will be dynamically added here -->
+      </div>
+    </aside>
+
+    <!-- Main Chat Area -->
+    <main class="main-content">
+      <header class="chat-header">
+        <div class="chat-header-left">
+          <h1 class="chat-title">🤖 Zenti AI Agent</h1>
+          <span class="chat-site-info" id="chat-site-info">Customer Support Agent - High-Risk Payment Solutions Expert</span>
+        </div>
+        <div class="chat-header-right">
+          <button class="login-button" id="loginBtn">Login</button>
+          <div class="user-info" id="userInfo" style="display: none;">
+            <span class="provider-icon" id="providerIcon"></span>
+            <span class="user-name" id="userName"></span>
+            <button class="logout-button" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="messages-container" id="messages-container">
+          <!-- Messages will be dynamically added here -->
+        </div>
+      </div>
+
+      <!-- Quick Questions Section -->
+      <div class="quick-questions">
+        <h3>💡 Quick Questions:</h3>
+        <div class="question-buttons">
+          <button class="question-btn" onclick="askQuickQuestion('Do you accept my vertical?')">Accept my vertical?</button>
+          <button class="question-btn" onclick="askQuickQuestion('Why is my business considered high-risk?')">Why high-risk?</button>
+          <button class="question-btn" onclick="askQuickQuestion('What are my approval options?')">Approval options</button>
+          <button class="question-btn" onclick="askQuickQuestion('How do processing fees work?')">Processing fees</button>
+          <button class="question-btn" onclick="askQuickQuestion('What is a rolling reserve?')">Rolling reserve</button>
+          <button class="question-btn" onclick="askQuickQuestion('How can I reduce chargebacks?')">Reduce chargebacks</button>
+        </div>
+      </div>
+
+      <div class="chat-input-container">
+        <div class="chat-input-wrapper">
+          <div class="chat-input-box">
+            <div class="input-mode-selector">
+              <button class="mode-selector-icon" id="mode-selector-icon" title="Select mode">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="9" y1="9" x2="15" y2="9"></line>
+                  <line x1="9" y1="12" x2="15" y2="12"></line>
+                  <line x1="9" y1="15" x2="11" y2="15"></line>
+                </svg>
+              </button>
+              <div class="mode-dropdown" id="mode-dropdown">
+                <div class="mode-dropdown-header">Select mode</div>
+                <div class="mode-dropdown-item" data-mode="list">List</div>
+                <div class="mode-dropdown-item" data-mode="summarize">Summarize</div>
+                <div class="mode-dropdown-item" data-mode="generate">Generate</div>
+              </div>
+            </div>
+            <textarea 
+              class="chat-input" 
+              id="chat-input"
+              placeholder="Ask me about high-risk payment processing..."
+              rows="1"
+            ></textarea>
+            <button class="send-button" id="send-button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/chat-interface.js"></script>
+  <script>
+    // Zenti FAQ Data
+    const zentiFAQ = {
+      "Do you accept my vertical?": "We have solutions for most high risk verticals, but whether a merchant gets approved by a processor can be a dynamic process and will depend on the results from underwriting. We even have off shore solutions should domestic options not work.",
+      
+      "Why is my business considered high-risk?": "Merchants are often considered high-risk due to factors like chargeback rates, industry type, regulatory scrutiny, ticket size, business history, and processing volume. We help you understand these factors and find the right solution.",
+      
+      "What are my approval options?": "High-risk merchants have several options including specialized processors, offshore solutions, payment aggregators, and alternative payment methods. Our expert team will match you with the best solution for your specific business model.",
+      
+      "How do processing fees work?": "High-risk processing fees are typically higher than mainstream businesses due to increased risk. Pricing is structured with percentage rates, per-transaction fees, monthly fees, and sometimes rolling reserves. We offer best-price guarantees for high-risk businesses.",
+      
+      "What is a rolling reserve?": "A rolling reserve is a percentage of your processing volume held by the processor as security against chargebacks and refunds. It's typically 5-10% held for 6-12 months. We help you understand reserve requirements and negotiate favorable terms.",
+      
+      "How can I reduce chargebacks?": "To reduce chargebacks, implement clear billing descriptors, provide excellent customer service, use fraud detection tools, respond quickly to disputes, and maintain detailed transaction records. We offer chargeback alert services and prevention strategies.",
+      
+      "What documents do I need for approval?": "Required documents typically include business license, financial statements, bank statements, compliance paperwork, processing history, and business plan. We guide you through the entire application process to ensure quick approval.",
+      
+      "Do I need minimum processing volume?": "Our processors work with both startups and established companies. Approval depends on your vertical and underwriting results. We have solutions for businesses of all sizes and processing volumes.",
+      
+      "What happens if my account is terminated?": "If your account is terminated, you may be placed on TMF/MATCH lists. We help you understand removal processes and provide alternative solutions to keep your business running during transitions.",
+      
+      "What are my options if I get declined?": "If declined, we offer alternative solutions including offshore processing, ACH payments, payment gateways, crypto acceptance, and specialized high-risk processors. We work with multiple providers to find the right fit."
+    };
+
+    function findFAQAnswer(question) {
+      const lowerQuestion = question.toLowerCase();
+      
+      for (const [faqQuestion, answer] of Object.entries(zentiFAQ)) {
+        if (lowerQuestion.includes(faqQuestion.toLowerCase()) || 
+            faqQuestion.toLowerCase().includes(lowerQuestion)) {
+          return answer;
+        }
+      }
+
+      // Check for keywords
+      if (lowerQuestion.includes('vertical') || lowerQuestion.includes('accept')) {
+        return zentiFAQ["Do you accept my vertical?"];
+      }
+      if (lowerQuestion.includes('high-risk') || lowerQuestion.includes('high risk')) {
+        return zentiFAQ["Why is my business considered high-risk?"];
+      }
+      if (lowerQuestion.includes('approval') || lowerQuestion.includes('approve')) {
+        return zentiFAQ["What are my approval options?"];
+      }
+      if (lowerQuestion.includes('fee') || lowerQuestion.includes('cost') || lowerQuestion.includes('price')) {
+        return zentiFAQ["How do processing fees work?"];
+      }
+      if (lowerQuestion.includes('reserve') || lowerQuestion.includes('hold')) {
+        return zentiFAQ["What is a rolling reserve?"];
+      }
+      if (lowerQuestion.includes('chargeback') || lowerQuestion.includes('dispute')) {
+        return zentiFAQ["How can I reduce chargebacks?"];
+      }
+      if (lowerQuestion.includes('document') || lowerQuestion.includes('paperwork')) {
+        return zentiFAQ["What documents do I need for approval?"];
+      }
+      if (lowerQuestion.includes('volume') || lowerQuestion.includes('minimum')) {
+        return zentiFAQ["Do I need minimum processing volume?"];
+      }
+      if (lowerQuestion.includes('terminate') || lowerQuestion.includes('match')) {
+        return zentiFAQ["What happens if my account is terminated?"];
+      }
+      if (lowerQuestion.includes('decline') || lowerQuestion.includes('reject')) {
+        return zentiFAQ["What are my options if I get declined?"];
+      }
+
+      return null;
+    }
+
+    function askQuickQuestion(question) {
+      const chatInput = document.getElementById('chat-input');
+      chatInput.value = question;
+      document.getElementById('send-button').click();
+    }
+
+    // Override the original send function to check FAQ first
+    const originalSendMessage = window.sendMessage;
+    window.sendMessage = async function() {
+      const chatInput = document.getElementById('chat-input');
+      const message = chatInput.value.trim();
+      
+      if (!message) return;
+
+      // Check FAQ first
+      const faqAnswer = findFAQAnswer(message);
+      if (faqAnswer) {
+        // Add user message
+        addMessage(message, 'user');
+        chatInput.value = '';
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Simulate typing delay
+        setTimeout(() => {
+          hideTypingIndicator();
+          addMessage(faqAnswer, 'bot');
+        }, 1500);
+        
+        return;
+      }
+
+      // If no FAQ match, use original function
+      if (originalSendMessage) {
+        originalSendMessage();
+      }
+    };
+
+    function showTypingIndicator() {
+      const messagesContainer = document.getElementById('messages-container');
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message bot typing-indicator';
+      typingDiv.id = 'typing-indicator';
+      typingDiv.innerHTML = `
+        <div class="message-content">
+          <div class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      `;
+      messagesContainer.appendChild(typingDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function hideTypingIndicator() {
+      const typingIndicator = document.getElementById('typing-indicator');
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
+    }
+
+    // Add initial welcome message
+    window.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        const messagesContainer = document.getElementById('messages-container');
+        if (messagesContainer.children.length === 0) {
+          addMessage("👋 Hello! I'm your Zenti AI Assistant, specialized in high-risk payment processing solutions. How can I help you today?", 'bot');
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>
