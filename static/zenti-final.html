@@ -99,7 +99,7 @@
         .header {
             background: linear-gradient(135deg, var(--zenti-secondary) 0%, #2a3a4a 50%, #1a252e 100%);
             color: white;
-            padding: 1rem 0;
+            padding: 0.5rem 0;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -148,8 +148,8 @@
         }
 
         .logo {
-            font-size: 1.8rem;
-            margin-bottom: 0.3rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
             background: linear-gradient(45deg, var(--zenti-accent), var(--zenti-highlight));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -165,23 +165,23 @@
         }
 
         .tagline {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.9;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             font-weight: 300;
         }
 
         .stats {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 0.75rem;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
             flex-wrap: wrap;
         }
 
         .stat {
             text-align: center;
-            padding: 0.5rem 0.75rem;
+            padding: 0.4rem 0.6rem;
             background: rgba(255, 255, 255, 0.15);
             border-radius: 10px;
             backdrop-filter: blur(20px);
@@ -212,7 +212,7 @@
         /* Main Container */
         .main-container {
             display: flex;
-            height: calc(100vh - 120px);
+            height: calc(100vh - 100px);
             max-width: 1400px;
             margin: 0 auto;
             padding: 1rem;
@@ -244,7 +244,7 @@
         .chat-header {
             background: linear-gradient(135deg, var(--zenti-secondary) 0%, #2a3a4a 100%);
             color: white;
-            padding: 1.5rem;
+            padding: 1rem;
             text-align: center;
             flex-shrink: 0;
             position: relative;
@@ -257,7 +257,7 @@
             top: 0;
             left: -100%;
             width: 100%;
-            height: 100%;
+            height: 80%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             animation: sweep 3s ease-in-out infinite;
         }
@@ -268,16 +268,16 @@
         }
 
         .chat-title {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             position: relative;
             z-index: 1;
         }
 
         .chat-subtitle {
             opacity: 0.9;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             position: relative;
             z-index: 1;
         }
@@ -670,8 +670,8 @@
 
             .chat-container {
                 flex: 1;
-                min-height: 300px;
-                max-height: calc(100vh - 300px);
+                min-height: 250px;
+                max-height: calc(80vh - 250px);
             }
         }
 
@@ -848,22 +848,22 @@
             <div class="sidebar-section">
                 <h3>💡 Quick Questions</h3>
                 <div class="question-grid">
-                    <button class="question-btn" onclick="askQuestion('Do you accept my vertical?')">
+                    <button class="question-btn" onclick="askQuestion('Do you accept my vertical?', event)">
                         Do you accept my vertical?
                     </button>
-                    <button class="question-btn" onclick="askQuestion('Why is my business considered high-risk?')">
+                    <button class="question-btn" onclick="askQuestion('Why is my business considered high-risk?', event)">
                         Why is my business high-risk?
                     </button>
-                    <button class="question-btn" onclick="askQuestion('What are my approval options?')">
+                    <button class="question-btn" onclick="askQuestion('What are my approval options?', event)">
                         What are my approval options?
                     </button>
-                    <button class="question-btn" onclick="askQuestion('How do processing fees work?')">
+                    <button class="question-btn" onclick="askQuestion('How do processing fees work?', event)">
                         How do processing fees work?
                     </button>
-                    <button class="question-btn" onclick="askQuestion('What is a rolling reserve?')">
+                    <button class="question-btn" onclick="askQuestion('What is a rolling reserve?', event)">
                         What is a rolling reserve?
                     </button>
-                    <button class="question-btn" onclick="askQuestion('How can I reduce chargebacks?')">
+                    <button class="question-btn" onclick="askQuestion('How can I reduce chargebacks?', event)">
                         How can I reduce chargebacks?
                     </button>
                 </div>
@@ -1186,13 +1186,15 @@
         });
 
         // Quick question function
-        window.askQuestion = function(question) {
+        window.askQuestion = function(question, event) {
             if (zentiChat && !zentiChat.isProcessing) {
                 // Add visual feedback to clicked button
-                event.target.style.animation = 'pulse 0.3s ease-out';
-                setTimeout(() => {
-                    event.target.style.animation = '';
-                }, 300);
+                if (event && event.target) {
+                    event.target.style.animation = 'pulse 0.3s ease-out';
+                    setTimeout(() => {
+                        event.target.style.animation = '';
+                    }, 300);
+                }
                 
                 zentiChat.sendMessage(question);
             }

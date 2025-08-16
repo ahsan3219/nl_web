@@ -39,7 +39,7 @@
         .header {
             background: linear-gradient(135deg, var(--zenti-secondary) 0%, #2a3a4a 100%);
             color: white;
-            padding: 2rem 0;
+            padding: 0.5rem 0;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -423,22 +423,22 @@
             <div class="sidebar-section">
                 <h3>💡 Quick Questions</h3>
                 <div class="question-grid">
-                    <button class="question-btn" onclick="askQuestion('Do you accept my vertical?')">
+                    <button class="question-btn" onclick="askQuestion('Do you accept my vertical?', event)">
                         Do you accept my vertical?
                     </button>
-                    <button class="question-btn" onclick="askQuestion('Why is my business considered high-risk?')">
+                    <button class="question-btn" onclick="askQuestion('Why is my business considered high-risk?', event)">
                         Why is my business high-risk?
                     </button>
-                    <button class="question-btn" onclick="askQuestion('What are my approval options?')">
+                    <button class="question-btn" onclick="askQuestion('What are my approval options?', event)">
                         What are my approval options?
                     </button>
-                    <button class="question-btn" onclick="askQuestion('How do processing fees work?')">
+                    <button class="question-btn" onclick="askQuestion('How do processing fees work?', event)">
                         How do processing fees work?
                     </button>
-                    <button class="question-btn" onclick="askQuestion('What is a rolling reserve?')">
+                    <button class="question-btn" onclick="askQuestion('What is a rolling reserve?', event)">
                         What is a rolling reserve?
                     </button>
-                    <button class="question-btn" onclick="askQuestion('How can I reduce chargebacks?')">
+                    <button class="question-btn" onclick="askQuestion('How can I reduce chargebacks?', event)">
                         How can I reduce chargebacks?
                     </button>
                 </div>
@@ -494,8 +494,15 @@
         });
 
         // Make askQuestion available globally for the quick question buttons
-        window.askQuestion = function(question) {
+        window.askQuestion = function(question, event) {
             if (chatInterface) {
+                // Add visual feedback to clicked button if event is provided
+                if (event && event.target) {
+                    event.target.style.animation = 'pulse 0.3s ease-out';
+                    setTimeout(() => {
+                        event.target.style.animation = '';
+                    }, 300);
+                }
                 chatInterface.sendMessage(question);
             }
         };

@@ -26,7 +26,7 @@ else:
 
 # Debug: Print all environment variables related to port
 print(f"Final PORT environment variable: {os.environ.get('PORT', 'NOT SET')}")
-print(f"All environment variables: {dict(os.environ)}")
+# print(f"All environment variables: {dict(os.environ)}")
 
 # Load environment variables from .env file
 load_dotenv()

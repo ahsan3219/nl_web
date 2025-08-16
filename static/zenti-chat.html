@@ -30,7 +30,7 @@
         .header {
             background: linear-gradient(135deg, #172029 0%, #2a3a4a 100%);
             color: white;
-            padding: 20px;
+            padding: 10px;
             border-radius: 20px 20px 0 0;
             text-align: center;
             box-shadow: 0 8px 32px rgba(23, 32, 41, 0.3);
@@ -358,12 +358,12 @@
             <div class="quick-questions">
                 <h3>💡 Quick Questions:</h3>
                 <div class="question-buttons">
-                    <button class="question-btn" onclick="askQuestion('Do you accept my vertical?')">Accept my vertical?</button>
-                    <button class="question-btn" onclick="askQuestion('Why is my business considered high-risk?')">Why high-risk?</button>
-                    <button class="question-btn" onclick="askQuestion('What are my approval options?')">Approval options</button>
-                    <button class="question-btn" onclick="askQuestion('How do processing fees work?')">Processing fees</button>
-                    <button class="question-btn" onclick="askQuestion('What is a rolling reserve?')">Rolling reserve</button>
-                    <button class="question-btn" onclick="askQuestion('How can I reduce chargebacks?')">Reduce chargebacks</button>
+                                    <button class="question-btn" onclick="askQuestion('Do you accept my vertical?', event)">Accept my vertical?</button>
+                <button class="question-btn" onclick="askQuestion('Why is my business considered high-risk?', event)">Why high-risk?</button>
+                <button class="question-btn" onclick="askQuestion('What are my approval options?', event)">Approval options</button>
+                <button class="question-btn" onclick="askQuestion('How do processing fees work?', event)">Processing fees</button>
+                <button class="question-btn" onclick="askQuestion('What is a rolling reserve?', event)">Rolling reserve</button>
+                <button class="question-btn" onclick="askQuestion('How can I reduce chargebacks?', event)">Reduce chargebacks</button>
                 </div>
             </div>
             
@@ -416,8 +416,17 @@
             }
         }
 
-        function askQuestion(question) {
+        function askQuestion(question, event) {
             if (isProcessing) return;
+            
+            // Add visual feedback to clicked button if event is provided
+            if (event && event.target) {
+                event.target.style.animation = 'pulse 0.3s ease-out';
+                setTimeout(() => {
+                    event.target.style.animation = '';
+                }, 300);
+            }
+            
             addMessage(question, 'user');
             processQuestion(question);
         }

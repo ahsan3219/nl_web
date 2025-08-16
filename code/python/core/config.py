@@ -203,7 +203,7 @@ class AppConfig:
         Resolves a path, considering the base output directory if set.
         If path is absolute, returns it unchanged.
         If path is relative and base_output_directory is set, resolves against base_output_directory.
-        Otherwise, resolves against the config directory.
+        Otherwise, resolves against the project root (code directory).
         """
         if os.path.isabs(path):
             return path
@@ -212,8 +212,12 @@ class AppConfig:
             # If base output directory is set, use it for all relative paths
             return os.path.abspath(os.path.join(self.base_output_directory, path))
         else:
-            # Otherwise use the config directory
-            return os.path.abspath(os.path.join(self.config_directory, path))
+            # Otherwise use the project root (code directory)
+            # Get the directory where this file is located
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            # Go up to the project root directory (assuming this file is in code/python/core/)
+            project_root = os.path.dirname(os.path.dirname(current_dir))
+            return os.path.abspath(os.path.join(project_root, path))
 
     def _get_config_value(self, value: Any, default: Any = None) -> Any:
         """
@@ -825,7 +829,7 @@ class AppConfig:
                     self.conversation_storage = ConversationStorageConfig(
                         type="qdrant",
                         enabled=True,
-                        database_path=self._resolve_path("../data/conversations_db"),
+                        database_path=self._resolve_path("data/conversations_db"),
                         collection_name="nlweb_conversations"
                     )
                     
@@ -835,7 +839,7 @@ class AppConfig:
             self.conversation_storage = ConversationStorageConfig(
                 type="qdrant",
                 enabled=True,
-                database_path=self._resolve_path("../data/conversations_db"),
+                database_path=self._resolve_path("data/conversations_db"),
                 collection_name="nlweb_conversations"
             )
             self.conversation_storage_behavior = StorageBehaviorConfig()

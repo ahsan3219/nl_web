@@ -12,7 +12,7 @@ storage_endpoints:
     enabled: true
     type: qdrant
     # Local file-based storage path
-    database_path: "../data/conversations_db"
+    database_path: "data/conversations_db"
     # Collection name for conversations
     collection_name: nlweb_conversations
     # Vector size for embeddings

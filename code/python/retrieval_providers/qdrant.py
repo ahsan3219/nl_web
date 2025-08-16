@@ -87,8 +87,15 @@ class QdrantVectorClient:
             
         # Get the directory where this file is located
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        # Go up to the project root directory (assuming this file is in a subdirectory)
-        project_root = os.path.dirname(current_dir)
+        
+        # In Docker container, the working directory is /app and code is in /app/python/
+        # So we need to go up one level to get to /app
+        if os.path.exists('/app'):
+            # We're in Docker container
+            project_root = '/app'
+        else:
+            # We're in local development - go up to the project root (code directory)
+            project_root = os.path.dirname(os.path.dirname(current_dir))
         
         # Handle different relative path formats
         if path.startswith('./'):
@@ -128,7 +135,7 @@ class QdrantVectorClient:
             params["path"] = resolved_path
         else:
             # Default to a local path if neither URL nor path is specified
-            default_path = self._resolve_path("../data/db")
+            default_path = self._resolve_path("data/db")
             logger.debug(f"Using default local Qdrant database path: {default_path}")
             params["path"] = default_path
         
@@ -179,7 +186,7 @@ class QdrantVectorClient:
                 
                 # Create a default local client as fallback
                 logger.info("Creating default local client")
-                default_path = self._resolve_path("../data/db")
+                default_path = self._resolve_path("data/db")
                 logger.info(f"Using default local path: {default_path}")
                 
                 fallback_client = AsyncQdrantClient(path=default_path)
