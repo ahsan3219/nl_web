@@ -12,7 +12,6 @@
 myenv
 venv
 .env
-.env.local
 data/
 
 
