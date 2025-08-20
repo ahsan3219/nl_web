@@ -1,0 +1,87 @@
+[
+  {
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Do you accept my vertical?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We have solutions for most high risk verticals, but whether a merchant gets approved by a processor can be a dynamic process and will depend on the results from underwriting. We even have off shore solutions should domestic options not work."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is my business considered high-risk?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Merchants are often considered high-risk due to factors like chargeback rates, industry type, regulatory scrutiny, ticket size, business history, and processing volume. We help you understand these factors and find the right solution."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are my options for getting approved for a merchant account?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "High-risk merchants have several options including specialized processors, offshore solutions, payment aggregators, and alternative payment methods. Our expert team will match you with the best solution for your specific business model."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do processing fees work for high-risk accounts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "High-risk processing fees are typically higher than mainstream businesses due to increased risk. Pricing is structured with percentage rates, per-transaction fees, monthly fees, and sometimes rolling reserves. We offer best-price guarantees for high-risk businesses."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a rolling reserve and why do I need one?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A rolling reserve is a percentage of your processing volume held by the processor as security against chargebacks and refunds. It's typically 5-10% held for 6-12 months. We help you understand reserve requirements and negotiate favorable terms."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I reduce chargebacks and disputes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To reduce chargebacks, implement clear billing descriptors, provide excellent customer service, use fraud detection tools, respond quickly to disputes, and maintain detailed transaction records. We offer chargeback alert services and prevention strategies."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do I need to provide to get approved quickly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Required documents typically include business license, financial statements, bank statements, compliance paperwork, processing history, and business plan. We guide you through the entire application process to ensure quick approval."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need a minimum processing volume to get approved?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our processors work with both startups and established companies. Approval depends on your vertical and underwriting results. We have solutions for businesses of all sizes and processing volumes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if my account is terminated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If your account is terminated, you may be placed on TMF/MATCH lists. We help you understand removal processes and provide alternative solutions to keep your business running during transitions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are my options if I get declined?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If declined, we offer alternative solutions including offshore processing, ACH payments, payment gateways, crypto acceptance, and specialized high-risk processors. We work with multiple providers to find the right fit."
+        }
+      }
+    ]
+  }
+]

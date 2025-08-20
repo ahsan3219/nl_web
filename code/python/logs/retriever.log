@@ -1,0 +1,4 @@
+2025-08-16 01:12:00,990 - retriever - ERROR - error:151 - Backend for endpoint nlweb_west does not support get_sites() or it failed: api_endpoint is not configured for endpoint nlweb_west
+NoneType: None
+2025-08-16 09:00:42,855 - retriever - ERROR - error:151 - Backend for endpoint qdrant_local does not support get_sites() or it failed: Storage folder C:\Users\Dell\OneDrive\Desktop\rich_east\nl_web\code\python\data/db is already accessed by another instance of Qdrant client. If you require concurrent access, use Qdrant server instead.
+NoneType: None

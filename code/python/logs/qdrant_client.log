@@ -1,0 +1,10 @@
+2025-08-16 09:00:42,846 - qdrant_client - ERROR - exception:167 - Failed to initialize Qdrant client: Storage folder C:\Users\Dell\OneDrive\Desktop\rich_east\nl_web\code\python\data/db is already accessed by another instance of Qdrant client. If you require concurrent access, use Qdrant server instead.
+NoneType: None
+2025-08-16 09:00:42,852 - qdrant_client - ERROR - exception:167 - Error retrieving sites from collection 'nlweb_collection': Storage folder C:\Users\Dell\OneDrive\Desktop\rich_east\nl_web\code\python\data/db is already accessed by another instance of Qdrant client. If you require concurrent access, use Qdrant server instead.
+NoneType: None
+2025-08-16 09:00:42,855 - qdrant_client - ERROR - log_with_context:181 - Qdrant get_sites failed | Context: error_type=RuntimeError - error_message=Storage folder C:\Users\Dell\OneDrive\Desktop\rich_east\nl_web\code\python\data/db is already accessed by another instance of Qdrant client. If you require concurrent access, use Qdrant server instead. - collection=nlweb_collection
+2025-08-16 09:00:48,169 - qdrant_client - ERROR - exception:167 - Failed to initialize Qdrant client: Storage folder C:\Users\Dell\OneDrive\Desktop\rich_east\nl_web\code\python\data/db is already accessed by another instance of Qdrant client. If you require concurrent access, use Qdrant server instead.
+NoneType: None
+2025-08-16 09:00:48,184 - qdrant_client - ERROR - exception:167 - Error in Qdrant search: Storage folder C:\Users\Dell\OneDrive\Desktop\rich_east\nl_web\code\python\data/db is already accessed by another instance of Qdrant client. If you require concurrent access, use Qdrant server instead.
+NoneType: None
+2025-08-16 09:00:48,196 - qdrant_client - ERROR - log_with_context:181 - Qdrant search failed | Context: error_type=RuntimeError - error_message=Storage folder C:\Users\Dell\OneDrive\Desktop\rich_east\nl_web\code\python\data/db is already accessed by another instance of Qdrant client. If you require concurrent access, use Qdrant server instead. - collection=nlweb_collection - site=Zenti

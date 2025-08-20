@@ -1,0 +1,4 @@
+2025-08-14 23:06:54,201 - load_zenti_data - ERROR - exception:167 - Error loading knowledge base: [Errno 2] No such file or directory: '../data/json\\zenti_knowledge_base.json'
+NoneType: None
+2025-08-14 23:07:21,833 - load_zenti_data - ERROR - exception:167 - Error loading knowledge base: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+NoneType: None

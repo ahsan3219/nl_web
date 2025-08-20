@@ -1,0 +1,9 @@
+2025-08-16 03:02:26,246 - generate_answer - ERROR - error:151 - Error in rankItem: 'score'
+2025-08-16 08:56:11,805 - generate_answer - ERROR - exception:167 - Error in get_ranked_answers: No valid endpoints available for search
+NoneType: None
+2025-08-16 08:56:11,807 - generate_answer - ERROR - exception:167 - Error in runQuery: No valid endpoints available for search
+NoneType: None
+2025-08-16 08:57:24,750 - generate_answer - ERROR - exception:167 - Error in get_ranked_answers: No valid endpoints available for search
+NoneType: None
+2025-08-16 08:57:24,759 - generate_answer - ERROR - exception:167 - Error in runQuery: No valid endpoints available for search
+NoneType: None

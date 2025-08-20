@@ -1,0 +1,2 @@
+2025-08-14 23:04:20,380 - retriever - ERROR - error:151 - Backend for endpoint nlweb_west does not support get_sites() or it failed: api_endpoint is not configured for endpoint nlweb_west
+NoneType: None

@@ -1,0 +1,10 @@
+2025-08-16 00:38:01,257 - nlweb_handler - ERROR - exception:167 - Error during preparation tasks: No valid endpoints available for search
+NoneType: None
+2025-08-16 00:38:01,268 - nlweb_handler - ERROR - exception:167 - Error in runQuery: No valid endpoints available for search
+NoneType: None
+2025-08-16 00:38:23,659 - nlweb_handler - ERROR - exception:167 - Error in runQuery: No valid endpoints available for search
+NoneType: None
+2025-08-16 00:54:46,145 - nlweb_handler - ERROR - exception:167 - Error during preparation tasks: No valid endpoints available for search
+NoneType: None
+2025-08-16 00:54:46,154 - nlweb_handler - ERROR - exception:167 - Error in runQuery: No valid endpoints available for search
+NoneType: None

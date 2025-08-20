@@ -1,0 +1,127 @@
+{
+  "site": "zenti.com",
+  "items": [
+    {
+      "name": "High-Risk Merchant Account Overview",
+      "url": "https://zenti.com/high-risk-merchant-account",
+      "type": "PaymentSolution",
+      "schema_object": {
+        "@type": "PaymentSolution",
+        "name": "High-Risk Merchant Account",
+        "description": "Uninterrupted payments and transparent processing costs for high-risk business. Zenti provides smarter, cheaper, safer, and more reliable payment processing solutions for high-risk businesses. With 14+ years of experience, we offer streamlined approval processes, best-price guarantees, and expert guidance to help businesses get approved and stay approved.",
+        "features": [
+          "Streamlined approval process",
+          "Best-price guarantee for high-risk",
+          "Expert guidance and support",
+          "Chargeback prevention tools",
+          "Risk management solutions",
+          "Multiple processing options"
+        ],
+        "businessTypes": [
+          "High-risk verticals",
+          "Startups",
+          "Established companies",
+          "MATCH-listed merchants (case by case)"
+        ],
+        "approvalRate": "99% merchant approval rate",
+        "experience": "14+ years in high-risk processing",
+        "processingVolume": "$2 Billion+ processing volume",
+        "merchantCount": "5000+ approved merchants"
+      }
+    },
+    {
+      "name": "High-Risk Business FAQ",
+      "url": "https://zenti.com/high-risk-faq",
+      "type": "PaymentSolution",
+      "schema_object": {
+        "@type": "PaymentSolution",
+        "name": "High-Risk Payment Processing FAQ",
+        "description": "Comprehensive answers to common questions about high-risk payment processing, merchant accounts, and business solutions.",
+        "faqs": [
+          {
+            "question": "Do you accept my vertical?",
+            "answer": "We have solutions for most high risk verticals, but whether a merchant gets approved by a processor can be a dynamic process and will depend on the results from underwriting. We even have off shore solutions should domestic options not work."
+          },
+          {
+            "question": "Why is my business considered high-risk?",
+            "answer": "Businesses are typically categorized as high-risk due to several factors including high chargeback rates, industry type (e.g., CBD, gaming), regulatory scrutiny, high average ticket size, limited business history, or previous processing issues. Each factor contributes to the overall risk assessment by processors."
+          },
+          {
+            "question": "What are my options for getting approved for a merchant account?",
+            "answer": "Options include domestic processors specializing in high-risk verticals, offshore solutions, multiple merchant accounts for load balancing, and alternative payment methods. The best solution depends on your specific business model, processing history, and risk factors."
+          },
+          {
+            "question": "How do processing fees work for high-risk accounts?",
+            "answer": "High-risk processing fees typically include: 1) Per-transaction percentage rate (higher than standard), 2) Per-transaction flat fee, 3) Monthly/annual fees, 4) Possible reserve requirements. Rates are customized based on your business type, volume, and risk factors."
+          },
+          {
+            "question": "What is a rolling reserve and why do I need one?",
+            "answer": "A rolling reserve is a risk management tool where a percentage of your processing volume is held temporarily to cover potential chargebacks or refunds. The reserve amount and duration vary based on risk factors. It protects both the processor and merchant from financial exposure."
+          },
+          {
+            "question": "How can I reduce chargebacks and disputes?",
+            "answer": "Effective chargeback prevention includes: 1) Clear billing descriptors, 2) Detailed product descriptions, 3) Responsive customer service, 4) Fraud prevention tools, 5) Chargeback alert systems, 6) Clear refund policies, 7) Transaction documentation."
+          },
+          {
+            "question": "What do I need to provide to get approved quickly?",
+            "answer": "Required documentation typically includes: 1) Business license/registration, 2) Processing statements (if applicable), 3) Bank statements, 4) Financial statements, 5) Valid ID, 6) Website compliance review, 7) Industry-specific certifications."
+          },
+          {
+            "question": "Do I need a minimum processing volume to get approved?",
+            "answer": "Our processors work with both startups and established companies. Approval and processor matching depend on your vertical and underwriting results rather than strict volume requirements."
+          },
+          {
+            "question": "What happens if my account is terminated?",
+            "answer": "If your account is terminated: 1) You may be placed on the MATCH list, 2) We can help evaluate alternative processors, 3) Some processors consider MATCH-listed merchants depending on the specific code, 4) We offer guidance on remediation and compliance."
+          },
+          {
+            "question": "What are my options if I get declined?",
+            "answer": "Options after decline include: 1) Alternative domestic processors, 2) Offshore solutions, 3) Payment aggregators, 4) ACH/eCheck processing, 5) Cryptocurrency acceptance, 6) Business model adjustments for compliance."
+          }
+        ]
+      }
+    },
+    {
+      "name": "Payment Processing Solutions",
+      "url": "https://zenti.com/solutions",
+      "type": "PaymentSolution",
+      "schema_object": {
+        "@type": "PaymentSolution",
+        "name": "High-Risk Payment Processing Solutions",
+        "description": "Comprehensive payment processing solutions for high-risk businesses. Our solutions include merchant accounts, payment gateways, chargeback prevention tools, and risk management systems. We offer both domestic and offshore options, with support for multiple payment methods and currencies.",
+        "features": [
+          "Multiple processing options",
+          "Integrated payment gateways",
+          "Chargeback prevention tools",
+          "Fraud detection systems",
+          "Multi-currency support",
+          "Real-time reporting"
+        ],
+        "integrations": [
+          {
+            "category": "Accounting",
+            "platforms": ["Xero", "Quickbooks", "Wave"]
+          },
+          {
+            "category": "Ecommerce",
+            "platforms": ["Shopify", "WooCommerce", "BigCommerce"]
+          },
+          {
+            "category": "CRM",
+            "platforms": ["Hubspot", "Salesforce", "Go High Level"]
+          }
+        ],
+        "supportedIndustries": [
+          "CBD/Cannabis",
+          "Gaming/Gambling",
+          "Adult content",
+          "Nutraceuticals",
+          "Tech support",
+          "Travel/Timeshare",
+          "Subscription services",
+          "High-ticket items"
+        ]
+      }
+    }
+  ]
+}
